@@ -5,7 +5,7 @@ package keystore
 
 import (
 	"github.com/bendt-indonesia/gotron-sdk/pkg/address"
-	"github.com/ethereum/go-ethereum/crypto/secp256k1"
+	"github.com/decred/dcrd/dcrec/secp256k1/v4"
 )
 
 func RecoverPubkey(hash []byte, signature []byte) (address.Address, error) {
