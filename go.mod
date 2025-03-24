@@ -1,4 +1,4 @@
-module github.com/fbsobreira/gotron-sdk
+module github.com/bendt-indonesia/gotron-sdk
 
 go 1.23.0
 
