@@ -4,25 +4,29 @@
 package keystore
 
 import (
-	"github.com/bendt-indonesia/gotron-sdk/pkg/address"
-	"github.com/decred/dcrd/dcrec/secp256k1/v4"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
 )
 
-func RecoverPubkey(hash []byte, signature []byte) (address.Address, error) {
+func RecoverPubkey(hash []byte, signature []byte) (common.Address, error) {
 
 	if signature[64] >= 27 {
 		signature[64] -= 27
 	}
 
-	sigPublicKey, err := secp256k1.RecoverPubkey(hash, signature)
+	// Recover the public key from the hash and signature
+	sigPublicKey, err := crypto.Ecrecover(hash, signature)
 	if err != nil {
-		return nil, err
-	}
-	pubKey, err := UnmarshalPublic(sigPublicKey)
-	if err != nil {
-		return nil, err
+		return common.Address{}, err
 	}
 
-	addr := address.PubkeyToAddress(*pubKey)
+	// Convert recovered public key bytes to a usable PublicKey struct
+	pubKey, err := crypto.UnmarshalPubkey(sigPublicKey)
+	if err != nil {
+		return common.Address{}, err
+	}
+
+	// Convert PublicKey to Ethereum address
+	addr := crypto.PubkeyToAddress(*pubKey)
 	return addr, nil
 }
