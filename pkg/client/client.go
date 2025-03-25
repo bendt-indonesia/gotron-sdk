@@ -18,6 +18,7 @@ type GrpcClient struct {
 	grpcTimeout time.Duration
 	opts        []grpc.DialOption
 	apiKey      string
+	DebugMode   bool
 }
 
 // NewGrpcClient create grpc controller

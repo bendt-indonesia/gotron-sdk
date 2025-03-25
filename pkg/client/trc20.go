@@ -41,6 +41,16 @@ func (g *GrpcClient) TRC20Call(from, contractAddress, data string, constant bool
 	if err != nil {
 		return nil, err
 	}
+
+	if g.DebugMode {
+		fmt.Printf("%30s: constant %v\n", "TRC20Call", constant)
+		fmt.Printf("%30s: %s\n", "From", from)
+		fmt.Printf("%30s: %s\n", "Contract", contractAddress)
+		fmt.Printf("%30s: %s\n", "Data", data)
+		fmt.Printf("%30s: %x\n", "DataBytes", dataBytes)
+		fmt.Printf("%30s: %x\n", "FeeLimit", feeLimit)
+	}
+
 	ct := &core.TriggerSmartContract{
 		OwnerAddress:    fromDesc.Bytes(),
 		ContractAddress: contractDesc.Bytes(),
@@ -187,5 +197,6 @@ func (g *GrpcClient) TRC20Approve(from, to, contract string, amount *big.Int, fe
 	ab := common.LeftPadBytes(amount.Bytes(), 32)
 	req := trc20ApproveMethodSignature + "0000000000000000000000000000000000000000000000000000000000000000"[len(addrB.Hex())-4:] + addrB.Hex()[4:]
 	req += common.Bytes2Hex(ab)
+
 	return g.TRC20Call(from, contract, req, false, feeLimit)
 }
