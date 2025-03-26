@@ -89,27 +89,43 @@ func (g *GrpcClient) TriggerConstantContract(from, contractAddress, method, json
 			return nil, err
 		}
 	}
+
+	if g.DebugMode {
+		fmt.Println("[TriggerConstantContract-1]")
+	}
 	contractDesc, err := address.Base58ToAddress(contractAddress)
 	if err != nil {
 		return nil, err
 	}
 
+	if g.DebugMode {
+		fmt.Println("[TriggerConstantContract-2]")
+	}
 	param, err := abi.LoadFromJSON(jsonString)
 	if err != nil {
 		return nil, err
 	}
 
+	if g.DebugMode {
+		fmt.Println("[TriggerConstantContract-3]")
+	}
 	dataBytes, err := abi.Pack(method, param)
 	if err != nil {
 		return nil, err
 	}
 
+	if g.DebugMode {
+		fmt.Println("[TriggerConstantContract-4]")
+	}
 	ct := &core.TriggerSmartContract{
 		OwnerAddress:    fromDesc.Bytes(),
 		ContractAddress: contractDesc.Bytes(),
 		Data:            dataBytes,
 	}
 
+	if g.DebugMode {
+		fmt.Println("[TriggerConstantContract-5]")
+	}
 	return g.triggerConstantContract(ct)
 }
 
