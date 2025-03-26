@@ -163,17 +163,7 @@ func (g *GrpcClient) TriggerContract(from, contractAddress, method, jsonString s
 	return g.triggerContract(ct, feeLimit)
 }
 
-// *deprecated*
-func (g *GrpcClient) TriggerRawContract(
-	from, contractAddress string,
-	dataBytes []byte,
-	feeLimit, tAmount int64,
-	tTokenID string,
-	tTokenAmount int64,
-) (*api.TransactionExtention, error) {
-	return g.Execute(from, contractAddress, dataBytes, feeLimit, tAmount, tTokenID, tTokenAmount)
-}
-
+// Direct Trigger Smart Contract by providing RAW Bytes data
 func (g *GrpcClient) Execute(
 	from, contractAddress string,
 	dataBytes []byte,
