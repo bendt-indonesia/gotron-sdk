@@ -2,7 +2,6 @@ package client
 
 import (
 	"crypto/sha256"
-	"encoding/json"
 	"fmt"
 	"strconv"
 
@@ -95,17 +94,7 @@ func (g *GrpcClient) TriggerConstantContract(from, contractAddress, method, json
 	if err != nil {
 		return nil, err
 	}
-
-	// Handle empty parameters
-	if jsonString == "" {
-		jsonString = "{}"
-	}
-
-	// Validate JSON
-	if !json.Valid([]byte(jsonString)) {
-		return nil, fmt.Errorf("invalid JSON: %s", jsonString)
-	}
-
+	
 	param, err := abi.LoadFromJSON(jsonString)
 	if err != nil {
 		return nil, err
